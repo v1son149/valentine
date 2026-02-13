@@ -3,12 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-
 <title>💖 Валентинка</title>
-
 <meta name="theme-color" content="#ff4d88">
 <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
-
 <style>
 * { -webkit-tap-highlight-color: transparent; }
 
@@ -76,7 +73,7 @@ button {
     color: #7a003c;
 }
 
-/* Сердечки */
+
 .heart {
     position: fixed;
     top: -10px;
@@ -93,10 +90,9 @@ button {
 }
 </style>
 </head>
-
 <body>
 
-<!-- 🎵 ФОНОВАЯ МУЗЫКА -->
+
 <audio id="bgMusic" loop>
     <source src="PASTE_YOUR_MP3_LINK_HERE" type="audio/mpeg">
 </audio>
@@ -115,10 +111,10 @@ button {
 </div>
 
 <script>
-/* ✏️ ИМЯ */
-const name = "Солнышко";
 
-/* 🔐 СЕКРЕТНЫЙ КЛЮЧ */
+const name = "Майя";
+
+
 const SECRET_KEY = "9f3KxL-love";
 const urlKey =
   new URLSearchParams(window.location.search).get("key") ||
@@ -129,7 +125,7 @@ if (urlKey !== SECRET_KEY) {
   throw new Error("No access");
 }
 
-/* 🎵 МУЗЫКА */
+
 const music = document.getElementById("bgMusic");
 
 function startMusic() {
@@ -147,7 +143,7 @@ window.addEventListener("load", startMusic);
 document.addEventListener("click", startMusic, { once: true });
 document.addEventListener("touchstart", startMusic, { once: true });
 
-/* DOM */
+
 const noBtn = document.getElementById('noBtn');
 const yesBtn = document.getElementById('yesBtn');
 const pleaText = document.getElementById('pleaText');
@@ -158,11 +154,11 @@ question.textContent = `Будешь ли ты моей Валентинкой, 
 
 let noClicks = 0;
 
-/* сохранённое "Да" */
+
 const savedYes = localStorage.getItem('valentineYes');
 if (savedYes) showYesScreen(savedYes);
 
-/* тексты и гифки */
+
 const pleas = [
     "Ну пожалуйста 🥺",
     "Ты уверен? 😢",
@@ -194,19 +190,20 @@ noBtn.addEventListener('click', () => {
     if (noClicks === 4) {
         yesBtn.style.left = "50%";
         yesBtn.style.transform = "translateX(-50%) scale(2)";
+        
     }
 });
 
-/* убегающая кнопка */
+
 function moveNo() {
-    if (noClicks >= 4) return;
+    if (noClicks < 4) return; 
     noBtn.style.left = Math.random() * (window.innerWidth - 100) + 'px';
     noBtn.style.top = Math.random() * (window.innerHeight - 100) + 'px';
 }
 noBtn.addEventListener('mouseenter', moveNo);
 noBtn.addEventListener('touchstart', moveNo);
 
-/* Да */
+
 yesBtn.addEventListener('click', () => {
     const date = new Date().toLocaleString();
     localStorage.setItem('valentineYes', date);
@@ -221,7 +218,7 @@ function showYesScreen(date) {
     noBtn.style.display = 'none';
 }
 
-/* сердечки */
+
 function createHeart() {
     const heart = document.createElement('div');
     heart.className = 'heart';
