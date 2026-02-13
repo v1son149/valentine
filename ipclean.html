@@ -161,7 +161,7 @@ if (savedYes) showYesScreen(savedYes);
 /* тексты и гифки */
 const pleas = [
     "Ну пожалуйста 🥺",
-    "Ты уверен? 😢",
+    "Ты уверенa? 😢",
     "Мне будет грустно 💔",
     "Последний шанс... 😭"
 ];
@@ -212,7 +212,7 @@ yesBtn.addEventListener('click', () => {
 
 function showYesScreen(date) {
     question.textContent = 'Я знал, что ты скажешь «да» 💕';
-    pleaText.textContent = `💖 ${name} согласился(ась) ${date}`;
+    pleaText.textContent = `💖 ${name} согласилась ${date}`;
     gif.src = "https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif";
     yesBtn.style.display = 'none';
     noBtn.style.display = 'none';
