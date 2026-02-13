@@ -150,7 +150,7 @@ const pleaText = document.getElementById('pleaText');
 const gif = document.getElementById('gif');
 const question = document.getElementById('question');
 
-question.textContent = `Будешь ли ты моей Валентинкой, ${name}?`;
+question.textContent = `Будешь ли ты моей Валентинкой, ${Майя}?`;
 
 let noClicks = 0;
 
@@ -212,7 +212,7 @@ yesBtn.addEventListener('click', () => {
 
 function showYesScreen(date) {
     question.textContent = 'Я знал, что ты скажешь «да» 💕';
-    pleaText.textContent = `💖 ${name} согласилась ${date}`;
+    pleaText.textContent = `💖 ${Майя} согласилась ${date}`;
     gif.src = "https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif";
     yesBtn.style.display = 'none';
     noBtn.style.display = 'none';
