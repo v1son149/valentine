@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+<title>💖 Валентинка</title>
+
+<meta name="theme-color" content="#ff4d88">
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+
+<style>
+* { -webkit-tap-highlight-color: transparent; }
+
+body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+    font-family: 'Pacifico', cursive;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    text-align: center;
+    padding: 20px;
+    z-index: 2;
+}
+
+h1 {
+    font-size: clamp(28px, 6vw, 46px);
+    color: #b3005e;
+    margin-bottom: 20px;
+}
+
+img {
+    width: min(240px, 70vw);
+    margin-bottom: 20px;
+    transition: 0.3s;
+}
+
+.buttons {
+    position: relative;
+    height: 130px;
+}
+
+button {
+    font-size: clamp(18px, 5vw, 24px);
+    padding: 14px 34px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: absolute;
+}
+
+#yesBtn {
+    background: #ff4d88;
+    color: white;
+    left: 50%;
+    transform: translateX(-120%);
+}
+
+#noBtn {
+    background: #888;
+    color: white;
+    left: 50%;
+    transform: translateX(20%);
+}
+
+.plea {
+    margin-top: 15px;
+    font-size: clamp(16px, 4vw, 22px);
+    color: #7a003c;
+}
+
+/* Сердечки */
+.heart {
+    position: fixed;
+    top: -10px;
+    animation: fall linear forwards;
+    z-index: 1;
+    pointer-events: none;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(110vh);
+        opacity: 0;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- 🎵 ФОНОВАЯ МУЗЫКА -->
+<audio id="bgMusic" loop>
+    <source src="PASTE_YOUR_MP3_LINK_HERE" type="audio/mpeg">
+</audio>
+
+<div class="container">
+    <h1 id="question"></h1>
+
+    <img id="gif" src="https://media.giphy.com/media/26BRv0ThflsHCqDrG/giphy.gif">
+
+    <div class="buttons">
+        <button id="yesBtn">Да 💖</button>
+        <button id="noBtn">Нет 💔</button>
+    </div>
+
+    <div class="plea" id="pleaText"></div>
+</div>
+
+<script>
+/* ✏️ ИМЯ */
+const name = "Солнышко";
+
+/* 🔐 СЕКРЕТНЫЙ КЛЮЧ */
+const SECRET_KEY = "9f3KxL-love";
+const urlKey =
+  new URLSearchParams(window.location.search).get("key") ||
+  new URLSearchParams(window.location.search).get("startapp");
+
+if (urlKey !== SECRET_KEY) {
+  document.body.innerHTML = "<h1 style='text-align:center;margin-top:40vh'>💔 Доступ закрыт</h1>";
+  throw new Error("No access");
+}
+
+/* 🎵 МУЗЫКА */
+const music = document.getElementById("bgMusic");
+
+function startMusic() {
+    music.volume = 0;
+    music.play().catch(() => {});
+    let v = 0;
+    const fade = setInterval(() => {
+        v += 0.02;
+        music.volume = Math.min(v, 0.4);
+        if (v >= 0.4) clearInterval(fade);
+    }, 100);
+}
+
+window.addEventListener("load", startMusic);
+document.addEventListener("click", startMusic, { once: true });
+document.addEventListener("touchstart", startMusic, { once: true });
+
+/* DOM */
+const noBtn = document.getElementById('noBtn');
+const yesBtn = document.getElementById('yesBtn');
+const pleaText = document.getElementById('pleaText');
+const gif = document.getElementById('gif');
+const question = document.getElementById('question');
+
+question.textContent = `Будешь ли ты моей Валентинкой, ${name}?`;
+
+let noClicks = 0;
+
+/* сохранённое "Да" */
+const savedYes = localStorage.getItem('valentineYes');
+if (savedYes) showYesScreen(savedYes);
+
+/* тексты и гифки */
+const pleas = [
+    "Ну пожалуйста 🥺",
+    "Ты уверен? 😢",
+    "Мне будет грустно 💔",
+    "Последний шанс... 😭"
+];
+
+const sadGifs = [
+    "https://media.giphy.com/media/ROF8OQvDmxytW/giphy.gif",
+    "https://media.giphy.com/media/ISOckXUybVfQ4/giphy.gif",
+    "https://media.giphy.com/media/d2lcHJTG5Tscg/giphy.gif",
+    "https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif"
+];
+
+/* Нет */
+noBtn.addEventListener('click', () => {
+    if (navigator.vibrate) navigator.vibrate(50);
+
+    if (noClicks < 4) {
+        pleaText.textContent = pleas[noClicks];
+        gif.src = sadGifs[noClicks];
+
+        yesBtn.style.transform = `translateX(-120%) scale(${1 + noClicks * 0.4})`;
+        noBtn.style.transform = `translateX(20%) scale(${1 - noClicks * 0.2})`;
+
+        noClicks++;
+    }
+
+    if (noClicks === 4) {
+        yesBtn.style.left = "50%";
+        yesBtn.style.transform = "translateX(-50%) scale(2)";
+    }
+});
+
+/* убегающая кнопка */
+function moveNo() {
+    if (noClicks >= 4) return;
+    noBtn.style.left = Math.random() * (window.innerWidth - 100) + 'px';
+    noBtn.style.top = Math.random() * (window.innerHeight - 100) + 'px';
+}
+noBtn.addEventListener('mouseenter', moveNo);
+noBtn.addEventListener('touchstart', moveNo);
+
+/* Да */
+yesBtn.addEventListener('click', () => {
+    const date = new Date().toLocaleString();
+    localStorage.setItem('valentineYes', date);
+    showYesScreen(date);
+});
+
+function showYesScreen(date) {
+    question.textContent = 'Я знал, что ты скажешь «да» 💕';
+    pleaText.textContent = `💖 ${name} согласился(ась) ${date}`;
+    gif.src = "https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif";
+    yesBtn.style.display = 'none';
+    noBtn.style.display = 'none';
+}
+
+/* сердечки */
+function createHeart() {
+    const heart = document.createElement('div');
+    heart.className = 'heart';
+    heart.textContent = '💖';
+    heart.style.left = Math.random() * 100 + 'vw';
+    heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+    heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 7000);
+}
+setInterval(createHeart, 300);
+</script>
+
+</body>
+</html>
