@@ -1,11 +1,118 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>💖 Валентинка</title>
+<meta name="theme-color" content="#ff4d88">
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<style>
+* { -webkit-tap-highlight-color: transparent; }
+
+body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+    font-family: 'Pacifico', cursive;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    text-align: center;
+    padding: 20px;
+    z-index: 2;
+}
+
+h1 {
+    font-size: clamp(28px, 6vw, 46px);
+    color: #b3005e;
+    margin-bottom: 20px;
+}
+
+img {
+    width: min(240px, 70vw);
+    margin-bottom: 20px;
+    transition: 0.3s;
+}
+
+.buttons {
+    position: relative;
+    height: 130px;
+}
+
+button {
+    font-size: clamp(18px, 5vw, 24px);
+    padding: 14px 34px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: absolute;
+}
+
+#yesBtn {
+    background: #ff4d88;
+    color: white;
+    left: 50%;
+    transform: translateX(-120%);
+}
+
+#noBtn {
+    background: #888;
+    color: white;
+    left: 50%;
+    transform: translateX(20%);
+}
+
+.plea {
+    margin-top: 15px;
+    font-size: clamp(16px, 4vw, 22px);
+    color: #7a003c;
+}
+
+/* Сердечки */
+.heart {
+    position: fixed;
+    top: -10px;
+    animation: fall linear forwards;
+    z-index: 1;
+    pointer-events: none;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(110vh);
+        opacity: 0;
+    }
+}
+</style>
+</head>
+<body>
+
 <!-- 🎵 ФОНОВАЯ МУЗЫКА -->
 <audio id="bgMusic" loop>
-    <source src="nervy_-_slishkom-vlyublen.mp3" type="audio/mpeg">
+    <source src="PASTE_YOUR_MP3_LINK_HERE" type="audio/mpeg">
 </audio>
+
+<div class="container">
+    <h1 id="question"></h1>
+
+    <img id="gif" src="https://media.giphy.com/media/26BRv0ThflsHCqDrG/giphy.gif">
+
+    <div class="buttons">
+        <button id="yesBtn">Да 💖</button>
+        <button id="noBtn">Нет 💔</button>
+    </div>
+
+    <div class="plea" id="pleaText"></div>
+</div>
 
 <script>
 /* ✏️ ИМЯ */
-const name = "майя";
+const name = "Солнышко";
 
 /* 🔐 СЕКРЕТНЫЙ КЛЮЧ */
 const SECRET_KEY = "9f3KxL-love";
@@ -83,12 +190,13 @@ noBtn.addEventListener('click', () => {
     if (noClicks === 4) {
         yesBtn.style.left = "50%";
         yesBtn.style.transform = "translateX(-50%) scale(2)";
+        // теперь кнопка «Нет» будет убегать
     }
 });
 
 /* убегающая кнопка */
 function moveNo() {
-    if (noClicks < 4) return;
+    if (noClicks < 4) return; // ✅ убегает только после 4 кликов
     noBtn.style.left = Math.random() * (window.innerWidth - 100) + 'px';
     noBtn.style.top = Math.random() * (window.innerHeight - 100) + 'px';
 }
@@ -123,4 +231,7 @@ function createHeart() {
 }
 setInterval(createHeart, 300);
 </script>
+
+</body>
+</html>
 
